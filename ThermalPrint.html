@@ -32,9 +32,9 @@
                         <textarea class="form-control" id="StringContent"> </textarea><br />
                         <label for="HtmlContent">HtmlContent</label>
                         <textarea class="form-control" id="HtmlContent"> </textarea><br />
-                        <button class="btn btn-primary" id="connectButton1">Connect to Printer </button><br />
-                        <button class="btn btn-primary" id="StringPrintButton">Print String </button><br />
-                        <button class="btn btn-primary" id="HtmlPrintButton">Print Html </button><br />
+                        <button class="btn btn-primary" id="connectButton1">Connect to Printer </button><br /><br />
+                        <button class="btn btn-primary" id="StringPrintButton">Print String </button><br /><br />
+                        <button class="btn btn-primary" id="HtmlPrintButton">Print Html </button><br /><br />
                     </div>
                 </div>
             </div>
@@ -44,9 +44,9 @@
                         <h5>For Test</h5>
                       </div>                    
                     <div class="card-body">
-                        <button class="btn btn-primary" type="button" onclick="onGetBluetoothDevicesButtonClick()"> test print</button><br />
-                        <button class="btn btn-primary" type="button" onclick="onRequestBluetoothDeviceButtonClick()"> test print</button><br />
-                        <button class="btn btn-primary" id="connectButton">Printer Connect Details</button><br />
+                        <button class="btn btn-primary" type="button" onclick="onGetBluetoothDevicesButtonClick()"> test print</button><br /><br />
+                        <button class="btn btn-primary" type="button" onclick="onRequestBluetoothDeviceButtonClick()"> test print</button><br /><br />
+                        <button class="btn btn-primary" id="connectButton">Printer Connect Details</button><br /><br />
                     </div>
                 </div>
             </div>
@@ -75,11 +75,11 @@
 
                     // Connect to the selected device
                     const server = await device.gatt.connect();
+                    console.log(ServiceUUID);
 
                     // Get the primary service
                     const service = await server.getPrimaryService(ServiceUUID); // Replace with the actual service UUID
                     const characteristicsUUID = await service.getCharacteristics()[0].uuid;
-                    console.log(ServiceUUID);
                     console.log(characteristicsUUID);
                     // Get the characteristic for writing
                     printerCharacteristic = await service.getCharacteristic(characteristicsUUID); // Replace with the actual characteristic UUID
