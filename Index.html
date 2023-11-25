@@ -89,30 +89,30 @@ function consoleInput( data ) {
 
 
 function onGetBluetoothDevicesButtonClick() {
-  alert('Getting existing permitted Bluetooth devices...');
+  console.log('Getting existing permitted Bluetooth devices...');
   navigator.bluetooth.getDevices()
   .then(devices => {
-    alert('> Got ' + devices.length + ' Bluetooth devices.');
+    console.log('> Got ' + devices.length + ' Bluetooth devices.');
     for (const device of devices) {
-      alert('  > ' + device.name + ' (' + device.id + ')');
+      console.log('  > ' + device.name + ' (' + device.id + ')');
     }
   })
   .catch(error => {
-    alert('Argh! ' + error);
+    console.log('Argh! ' + error);
   });
 }
 
 function onRequestBluetoothDeviceButtonClick() {
-  alert('Requesting any Bluetooth device...');
+  console.log('Requesting any Bluetooth device...');
   navigator.bluetooth.requestDevice({
  // filters: [...] <- Prefer filters to save energy & show relevant devices.
     acceptAllDevices: true
   })
   .then(device => {
-    alert('> Requested ' + device.name + ' (' + device.id + ')');
+    console.log('> Requested ' + device.name + ' (' + device.id + ')');
   })
   .catch(error => {
-    alert('Argh! ' + error);
+    console.log('Argh! ' + error);
   });
 }
 
