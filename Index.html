@@ -47,12 +47,53 @@
                         <a href="tel:+91 9524 864 129">+91 9524 864 129</a>
                         <button type="button" onclick="onGetBluetoothDevicesButtonClick()"> test print</button>
                         <button type="button" onclick="onRequestBluetoothDeviceButtonClick()"> test print</button>
+                        <button id="connectButton">Connect to Printer</button>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const connectButton = document.getElementById('connectButton');
+
+        connectButton.addEventListener('click', async () => {
+            try {
+                // Request Bluetooth device
+                const device = await navigator.bluetooth.requestDevice({
+                    filters: [{ services: ['e7810a71-73ae-499d-8c15-faa9aef0c3f2'] }] // Replace with the actual service UUID of your printer
+                });
+
+                // Connect to the selected device
+                const server = await device.gatt.connect();
+
+                // Get the primary service
+                const service = await server.getPrimaryService('e7810a71-73ae-499d-8c15-faa9aef0c3f2'); // Replace with the actual service UUID
+
+                // Get all characteristics of the service
+                const characteristics = await service.getCharacteristics();
+
+                // Display information about characteristics
+                characteristics.forEach(characteristic => {
+                    console.log('Characteristic UUID:', characteristic.uuid);
+                    console.log('Properties:', characteristic.properties);
+                    console.log('Value:', characteristic.value);
+                    console.log('----------------------');
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+</script>
+
+
+
 
 <script>
 
