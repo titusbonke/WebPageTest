@@ -103,6 +103,7 @@
 
                     // Data to be sent for printing (replace with your actual data)
                     const printData = StringPrintButton.value;
+                    console.log(printData);
 
                     // Convert the string to ArrayBuffer
                     const dataArrayBuffer = new TextEncoder().encode(printData);
@@ -126,7 +127,7 @@
 
                     // HTML content to be printed (replace with your actual HTML content)
                     const htmlContent = HtmlPrintButton.value;
-
+                    console.log(htmlContent);
                     // Convert HTML to ESC/POS commands
                     const printerCommands = new TextEncoder().encode(escpos.ESCPOS().image(htmlContent).text(''));
 
