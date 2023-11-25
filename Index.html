@@ -71,12 +71,15 @@
                 // Connect to the selected device
                 const server = await device.gatt.connect();
                 console.log("Server: "+server);
+                console.log(server);
                 // Get the primary service
                 const service = await server.getPrimaryService('e7810a71-73ae-499d-8c15-faa9aef0c3f2'); // Replace with the actual service UUID
                 console.log("service: "+service);
+                console.log(service);
                 // Get all characteristics of the service
                 const characteristics = await service.getCharacteristics();
                 console.log("characteristics: "+characteristics);
+                console.log(characteristics);
                 // Display information about characteristics
                 characteristics.forEach(characteristic => {
                     console.log("characteristic1: "+characteristic);
