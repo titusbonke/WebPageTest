@@ -11,34 +11,44 @@
 <body>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-        <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <div class="container">
         <div class="row p-5">
             <div class="col">
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="https://images.pexels.com/photos/1707215/pexels-photo-1707215.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Card image cap">
+                    <img class="card-img-top"
+                        src="https://images.pexels.com/photos/1707215/pexels-photo-1707215.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                        alt="Card image cap">
                     <div class="card-body">
-                      <h5 class="card-title">Test page</h5>
-                      <a href="TestPage.html" class="btn btn-primary">Go To Test page</a>
+                        <h5 class="card-title">Test page</h5>
+                        <a href="TestPage.html" class="btn btn-primary">Go To Test page</a>
                     </div>
-                  </div>
+                </div>
             </div>
             <div class="col">
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="https://images.pexels.com/photos/1591447/pexels-photo-1591447.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Card image cap">
+                    <img class="card-img-top"
+                        src="https://images.pexels.com/photos/1591447/pexels-photo-1591447.jpeg?auto=compress&cs=tinysrgb&w=1600"
+                        alt="Card image cap">
                     <div class="card-body">
-                      <h5 class="card-title">Update Page</h5>
-                      <a href="UpdateNow.html" class="btn btn-primary">Go To Update page</a>
-                      <a href="https://drive.sathyainfo.com/codestudio4/sso/log-in.png" target="_blank" type="text/plain">Share file</a>
-                      <a class="btn btn-primary" title="WhatsApp" id="Whatsapp" href="#" style="border-radius: 12px;border:none;background-color: #25d366;width: auto;display:inline-block;padding: 8px 20px;">
-                        <i class="fa fa-whatsapp"></i><span>WhatsApp</span>
-                    </a>
-                    <a href="tel:+91 9524 864 129">+91 9524 864 129</a>
-                    <button type="button" onclick="InitMyPrinter()"> test print</button>
-                    <button type="button" onclick="print()"> test print</button>
+                        <h5 class="card-title">Update Page</h5>
+                        <a href="UpdateNow.html" class="btn btn-primary">Go To Update page</a>
+                        <a href="https://drive.sathyainfo.com/codestudio4/sso/log-in.png" target="_blank"
+                            type="text/plain">Share file</a>
+                        <a class="btn btn-primary" title="WhatsApp" id="Whatsapp" href="#"
+                            style="border-radius: 12px;border:none;background-color: #25d366;width: auto;display:inline-block;padding: 8px 20px;">
+                            <i class="fa fa-whatsapp"></i><span>WhatsApp</span>
+                        </a>
+                        <a href="tel:+91 9524 864 129">+91 9524 864 129</a>
+                        <button type="button" onclick="InitMyPrinter()"> test print</button>
+                        <button type="button" onclick="print()"> test print</button>
                     </div>
-                  </div>
+                </div>
             </div>
         </div>
     </div>
@@ -46,90 +56,93 @@
 
 <script>
     var printer = null;
-var ePosDev = null;
+    var ePosDev = null;
+    $(window).bind("load", function () {
+        alert(getDevices());
+    });
 
-function InitMyPrinter() {
-    console.log("Init Printer");
+    function InitMyPrinter() {
+        console.log("Init Printer");
 
-    var printerPort = 8008;
-    var printerAddress = "192.168.198.168";
-    // if (isSSL) {
-    //     printerPort = 8043;
-    // }
-    ePosDev = new epson.ePOSDevice();
-    ePosDev.connect(printerAddress, printerPort, cbConnect);
-}
-
-//Printing
-function cbConnect(data) {
-    if (data == 'OK' || data == 'SSL_CONNECT_OK') {
-        ePosDev.createDevice('local_printer', ePosDev.DEVICE_TYPE_PRINTER,
-            {'crypto': false, 'buffer': false}, cbCreateDevice_printer);
-    } else {
-        console.log(data);
+        var printerPort = 8008;
+        var printerAddress = "192.168.198.168";
+        // if (isSSL) {
+        //     printerPort = 8043;
+        // }
+        ePosDev = new epson.ePOSDevice();
+        ePosDev.connect(printerAddress, printerPort, cbConnect);
     }
-}
 
-function cbCreateDevice_printer(devobj, retcode) {
-    if (retcode == 'OK') {
-        printer = devobj;
-        printer.timeout = 60000;
-        printer.onreceive = function (res) { //alert(res.success);
-            console.log("Printer Object Created");
-
-        };
-        printer.oncoveropen = function () { //alert('coveropen');
-            console.log("Printer Cover Open");
-
-        };
-    } else {
-        console.log(retcode);
-        isRegPrintConnected = false;
+    //Printing
+    function cbConnect(data) {
+        if (data == 'OK' || data == 'SSL_CONNECT_OK') {
+            ePosDev.createDevice('local_printer', ePosDev.DEVICE_TYPE_PRINTER,
+                { 'crypto': false, 'buffer': false }, cbCreateDevice_printer);
+        } else {
+            console.log(data);
+        }
     }
-}
 
-function print(salePrintObj) {
-    debugger;
-    if (isRegPrintConnected == false
-        || printer == null) {
-        return;
+    function cbCreateDevice_printer(devobj, retcode) {
+        if (retcode == 'OK') {
+            printer = devobj;
+            printer.timeout = 60000;
+            printer.onreceive = function (res) { //alert(res.success);
+                console.log("Printer Object Created");
+
+            };
+            printer.oncoveropen = function () { //alert('coveropen');
+                console.log("Printer Cover Open");
+
+            };
+        } else {
+            console.log(retcode);
+            isRegPrintConnected = false;
+        }
     }
-    console.log("Printing Started");
+
+    function print(salePrintObj) {
+        debugger;
+        if (isRegPrintConnected == false
+            || printer == null) {
+            return;
+        }
+        console.log("Printing Started");
 
 
-    printer.addLayout(printer.LAYOUT_RECEIPT, 800, 0, 0, 0, 35, 0);
-    printer.addTextAlign(printer.ALIGN_CENTER);
-    printer.addTextSmooth(true);
-    printer.addText('\n');
-    printer.addText('\n');
+        printer.addLayout(printer.LAYOUT_RECEIPT, 800, 0, 0, 0, 35, 0);
+        printer.addTextAlign(printer.ALIGN_CENTER);
+        printer.addTextSmooth(true);
+        printer.addText('\n');
+        printer.addText('\n');
 
-    printer.addTextDouble(true, true);
-    printer.addText(CompanyName + '\n');
+        printer.addTextDouble(true, true);
+        printer.addText(CompanyName + '\n');
 
-    printer.addTextDouble(false, false);
-    printer.addText(CompanyHeader + '\n');
-    printer.addText('\n');
+        printer.addTextDouble(false, false);
+        printer.addText(CompanyHeader + '\n');
+        printer.addText('\n');
 
-    printer.addTextAlign(printer.ALIGN_LEFT);
-    printer.addText('DATE: ' + currentDate + '\t\t');
+        printer.addTextAlign(printer.ALIGN_LEFT);
+        printer.addText('DATE: ' + currentDate + '\t\t');
 
-    printer.addTextAlign(printer.ALIGN_RIGHT);
-    printer.addText('TIME: ' + currentTime + '\n');
+        printer.addTextAlign(printer.ALIGN_RIGHT);
+        printer.addText('TIME: ' + currentTime + '\n');
 
-    printer.addTextAlign(printer.ALIGN_LEFT);
+        printer.addTextAlign(printer.ALIGN_LEFT);
 
-    printer.addTextAlign(printer.ALIGN_RIGHT);
-    printer.addText('REGISTER: ' + RegisterName + '\n');
-    printer.addTextAlign(printer.ALIGN_LEFT);
-    printer.addText('SALE # ' + SaleNumber + '\n');
+        printer.addTextAlign(printer.ALIGN_RIGHT);
+        printer.addText('REGISTER: ' + RegisterName + '\n');
+        printer.addTextAlign(printer.ALIGN_LEFT);
+        printer.addText('SALE # ' + SaleNumber + '\n');
 
-    printer.addTextAlign(printer.ALIGN_CENTER);
-    printer.addTextStyle(false, false, true, printer.COLOR_1);
-    printer.addTextStyle(false, false, false, printer.COLOR_1);
-    printer.addTextDouble(false, true);
-    printer.addText('* SALE RECEIPT *\n');
-    printer.addTextDouble(false, false);
-}
+        printer.addTextAlign(printer.ALIGN_CENTER);
+        printer.addTextStyle(false, false, true, printer.COLOR_1);
+        printer.addTextStyle(false, false, false, printer.COLOR_1);
+        printer.addTextDouble(false, true);
+        printer.addText('* SALE RECEIPT *\n');
+        printer.addTextDouble(false, false);
+    }
 
 </script>
 
