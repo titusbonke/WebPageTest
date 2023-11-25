@@ -82,7 +82,9 @@
 
                     const characteristics = await service.getCharacteristics();
                     console.log(characteristics);
-                    const characteristicsUUID = await service.getCharacteristics()[0].uuid;
+                    console.log(characteristics[0]);
+                    console.log(characteristics.uuid);
+                    const characteristicsUUID = characteristics[0].uuid;
                     console.log(characteristicsUUID);
                     // Get the characteristic for writing
                     printerCharacteristic = await service.getCharacteristic(characteristicsUUID); // Replace with the actual characteristic UUID
