@@ -66,6 +66,8 @@
             const connectButton = document.getElementById('connectButton1');
             const StringPrintButton = document.getElementById('StringPrintButton');
             const HtmlPrintButton = document.getElementById('HtmlPrintButton');
+            const StringContent = document.getElementById('StringContent');
+            const HtmlContent = document.getElementById('HtmlContent');
 
             connectButton.addEventListener('click', async () => {
                 try {
@@ -104,7 +106,7 @@
                     }
 
                     // Data to be sent for printing (replace with your actual data)
-                    const printData = StringPrintButton.value;
+                    const printData = StringContent.value;
                     console.log(printData);
 
                     // Convert the string to ArrayBuffer
@@ -128,7 +130,7 @@
                     }
 
                     // HTML content to be printed (replace with your actual HTML content)
-                    const htmlContent = HtmlPrintButton.value;
+                    const htmlContent = HtmlContent.value;
                     console.log(htmlContent);
                     // Convert HTML to ESC/POS commands
                     const printerCommands = new TextEncoder().encode(escpos.ESCPOS().image(htmlContent).text(''));
