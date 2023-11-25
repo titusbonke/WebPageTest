@@ -48,6 +48,9 @@
                         <button type="button" onclick="onGetBluetoothDevicesButtonClick()"> test print</button>
                         <button type="button" onclick="onRequestBluetoothDeviceButtonClick()"> test print</button>
                         <button id="connectButton">Connect to Printer</button>
+                        <button id="connectButton1">Connect to Printer 1</button>
+                        <button id="printButton">Print</button>
+                    
 
                     </div>
                 </div>
@@ -55,6 +58,65 @@
         </div>
     </div>
 </body>
+
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            let printerCharacteristic;
+
+            const connectButton = document.getElementById('connectButton1');
+            const printButton = document.getElementById('printButton');
+
+            connectButton.addEventListener('click', async () => {
+                try {
+                    // Request Bluetooth device
+                    const device = await navigator.bluetooth.requestDevice({
+                        filters: [{ services: ['printer_service_uuid'] }] // Replace with the actual service UUID of your printer
+                    });
+
+                    // Connect to the selected device
+                    const server = await device.gatt.connect();
+
+                    // Get the primary service
+                    const service = await server.getPrimaryService('printer_service_uuid'); // Replace with the actual service UUID
+
+                    // Get the characteristic for writing
+                    printerCharacteristic = await service.getCharacteristic('printer_characteristic_uuid'); // Replace with the actual characteristic UUID
+
+                    console.log('Connected to printer');
+
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+
+            printButton.addEventListener('click', async () => {
+                try {
+                    if (!printerCharacteristic) {
+                        console.error('Printer not connected.');
+                        return;
+                    }
+
+                    // Data to be sent for printing (replace with your actual data)
+                    const printData = 'Hello, this is a test print.';
+
+                    // Convert the string to ArrayBuffer
+                    const dataArrayBuffer = new TextEncoder().encode(printData);
+
+                    // Write data to the characteristic
+                    await printerCharacteristic.writeValue(dataArrayBuffer);
+
+                    console.log('Printed successfully');
+
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
+
 
 
 <script>
