@@ -73,17 +73,17 @@
                 try {
                     // Request Bluetooth device
                     const device = await navigator.bluetooth.requestDevice({
-                        filters: [{ services: ['printer_service_uuid'] }] // Replace with the actual service UUID of your printer
+                        filters: [{ services: ['e7810a71-73ae-499d-8c15-faa9aef0c3f2'] }] // Replace with the actual service UUID of your printer
                     });
 
                     // Connect to the selected device
                     const server = await device.gatt.connect();
 
                     // Get the primary service
-                    const service = await server.getPrimaryService('printer_service_uuid'); // Replace with the actual service UUID
+                    const service = await server.getPrimaryService('e7810a71-73ae-499d-8c15-faa9aef0c3f2'); // Replace with the actual service UUID
 
                     // Get the characteristic for writing
-                    printerCharacteristic = await service.getCharacteristic('printer_characteristic_uuid'); // Replace with the actual characteristic UUID
+                    printerCharacteristic = await service.getCharacteristic('bef8d6c9-9c21-4c9e-b632-bd58c1009f9f'); // Replace with the actual characteristic UUID
 
                     console.log('Connected to printer');
 
