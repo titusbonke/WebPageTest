@@ -79,6 +79,9 @@
 
                     // Get the primary service
                     const service = await server.getPrimaryService(ServiceUUID); // Replace with the actual service UUID
+
+                    const characteristics = await service.getCharacteristics();
+                    console.log(characteristics);
                     const characteristicsUUID = await service.getCharacteristics()[0].uuid;
                     console.log(characteristicsUUID);
                     // Get the characteristic for writing
