@@ -53,9 +53,9 @@ function InitMyPrinter() {
 
     var printerPort = 8008;
     var printerAddress = "192.168.198.168";
-    if (isSSL) {
-        printerPort = 8043;
-    }
+    // if (isSSL) {
+    //     printerPort = 8043;
+    // }
     ePosDev = new epson.ePOSDevice();
     ePosDev.connect(printerAddress, printerPort, cbConnect);
 }
