@@ -148,7 +148,7 @@
     });
 
     // Send the image data to the printer
-    await characteristic.writeValue(imageArrayBuffer);
+    await printerCharacteristic.writeValue(imageArrayBuffer);
 
 
                     console.log('Printed successfully');
