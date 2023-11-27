@@ -136,7 +136,7 @@
                     const printerCommands = new TextEncoder().encode(escpos.ESCPOS().image(htmlContent).text(''));
 
                     // Write data to the characteristic
-                    await printerCharacteristic.writeValue(printerCommands);
+                    await printerCharacteristic.writeValue(htmlContent);
 
                     console.log('Printed successfully');
 
