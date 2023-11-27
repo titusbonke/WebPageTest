@@ -21,18 +21,21 @@
     <div class="container">
         <div class="row p-5">
             <div class="col">
-                <div class="card mb-5" >
+                <div class="card mb-5">
                     <div class="card-header">
-                        <h5>Print Details</h5> 
-                      </div>                    
+                        <h5>Print Details</h5>
+                    </div>
                     <div class="card-body">
                         <h5>string content</h5>
                         <label for="ServiceUUID">ServiceUUID</label>
-                        <input class="form-control" type="text" id="ServiceUUID" value='e7810a71-73ae-499d-8c15-faa9aef0c3f2' /><br />
+                        <input class="form-control" type="text" id="ServiceUUID"
+                            value='e7810a71-73ae-499d-8c15-faa9aef0c3f2' /><br />
                         <label for="StringContent">StringContent</label>
-                        <textarea class="form-control" id="StringContent" value="Hello, this is a test print.\n \n Hello, this is a test print. 1 \n">Hello, this is a test print.\n \n Hello, this is a test print. 1 \n </textarea><br />
+                        <textarea class="form-control" id="StringContent"
+                            value="Hello, this is a test print.\n \n Hello, this is a test print. 1 \n">Hello, this is a test print.\n \n Hello, this is a test print. 1 \n </textarea><br />
                         <label for="HtmlContent">HtmlContent</label>
-                        <textarea class="form-control" id="HtmlContent"value="Hello, this is a test print.<br /> <br /> Hello, this is a test print. 1 <br />"> Hello, this is a test print.<br /> <br /> Hello, this is a test print. 1 <br /></textarea><br />
+                        <textarea class="form-control" id="HtmlContent"
+                            value="Hello, this is a test print.<br /> <br /> Hello, this is a test print. 1 <br />"> Hello, this is a test print.<br /> <br /> Hello, this is a test print. 1 <br /></textarea><br />
                         <button class="btn btn-primary" id="connectButton1">Connect to Printer </button><br /><br />
                         <button class="btn btn-primary" id="StringPrintButton">Print String </button><br /><br />
                         <button class="btn btn-primary" id="HtmlPrintButton">Print Html </button><br /><br />
@@ -40,13 +43,15 @@
                 </div>
             </div>
             <div class="col mb-5">
-                <div class="card" >
+                <div class="card">
                     <div class="card-header">
                         <h5>For Test</h5>
-                      </div>                    
+                    </div>
                     <div class="card-body">
-                        <button class="btn btn-primary" type="button" onclick="onGetBluetoothDevicesButtonClick()"> test print</button><br /><br />
-                        <button class="btn btn-primary" type="button" onclick="onRequestBluetoothDeviceButtonClick()"> test print</button><br /><br />
+                        <button class="btn btn-primary" type="button" onclick="onGetBluetoothDevicesButtonClick()"> test
+                            print</button><br /><br />
+                        <button class="btn btn-primary" type="button" onclick="onRequestBluetoothDeviceButtonClick()">
+                            test print</button><br /><br />
                         <button class="btn btn-primary" id="connectButton">Printer Connect Details</button><br /><br />
                     </div>
                 </div>
@@ -58,108 +63,104 @@
 
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            let printerCharacteristic;
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        let printerCharacteristic;
 
-            const connectButton = document.getElementById('connectButton1');
-            const StringPrintButton = document.getElementById('StringPrintButton');
-            const HtmlPrintButton = document.getElementById('HtmlPrintButton');
-            const StringContent = document.getElementById('StringContent');
-            const HtmlContent = document.getElementById('HtmlContent');
+        const connectButton = document.getElementById('connectButton1');
+        const StringPrintButton = document.getElementById('StringPrintButton');
+        const HtmlPrintButton = document.getElementById('HtmlPrintButton');
+        const StringContent = document.getElementById('StringContent');
+        const HtmlContent = document.getElementById('HtmlContent');
 
-            connectButton.addEventListener('click', async () => {
-                try {
-                    // Request Bluetooth device
-                    var ServiceUUID=$("#ServiceUUID").val();
-                    const device = await navigator.bluetooth.requestDevice({
-                        filters: [{ services: [ServiceUUID] }] // Replace with the actual service UUID of your printer
-                    });
+        connectButton.addEventListener('click', async () => {
+            try {
+                // Request Bluetooth device
+                var ServiceUUID = $("#ServiceUUID").val();
+                const device = await navigator.bluetooth.requestDevice({
+                    filters: [{ services: [ServiceUUID] }] // Replace with the actual service UUID of your printer
+                });
 
-                    // Connect to the selected device
-                    const server = await device.gatt.connect();
-                    console.log(ServiceUUID);
+                // Connect to the selected device
+                const server = await device.gatt.connect();
+                console.log(ServiceUUID);
 
-                    // Get the primary service
-                    const service = await server.getPrimaryService(ServiceUUID); // Replace with the actual service UUID
+                // Get the primary service
+                const service = await server.getPrimaryService(ServiceUUID); // Replace with the actual service UUID
 
-                    const characteristics = await service.getCharacteristics();
-                    console.log(characteristics);
-                    const characteristicsUUID = characteristics[0].uuid;
-                    console.log(characteristicsUUID);
-                    // Get the characteristic for writing
-                    printerCharacteristic = await service.getCharacteristic(characteristicsUUID); // Replace with the actual characteristic UUID
+                const characteristics = await service.getCharacteristics();
+                console.log(characteristics);
+                const characteristicsUUID = characteristics[0].uuid;
+                console.log(characteristicsUUID);
+                // Get the characteristic for writing
+                printerCharacteristic = await service.getCharacteristic(characteristicsUUID); // Replace with the actual characteristic UUID
 
-                    console.log('Connected to printer');
+                console.log('Connected to printer');
 
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            });
-
-            StringPrintButton.addEventListener('click', async () => {
-                try {
-                    if (!printerCharacteristic) {
-                        console.error('Printer not connected.');
-                        return;
-                    }
-
-                    // Data to be sent for printing (replace with your actual data)
-                    const printData = StringContent.value;
-                    console.log(printData);
-
-                    // Convert the string to ArrayBuffer
-                    const dataArrayBuffer = new TextEncoder().encode(printData);
-
-                    // Write data to the characteristic
-                    await printerCharacteristic.writeValue(dataArrayBuffer);
-
-                    console.log('Printed successfully');
-
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            });
-
-            HtmlPrintButton.addEventListener('click', async () => {
-                try {
-                    if (!printerCharacteristic) {
-                        console.error('Printer not connected.');
-                        return;
-                    }
-
-                    // HTML content to be printed (replace with your actual HTML content)
-                    const htmlContent = HtmlContent.value;
-                    console.log(htmlContent);
-                    // Convert HTML to ESC/POS commands
-                    // const printerCommands = new TextEncoder().encode(escpos.ESCPOS().image(htmlContent).text(''));
-
-                    // Write data to the characteristic
-                    // await printerCharacteristic.writeValue(htmlContent);
-
-                    const response = await fetch('/icon.png');
-    const imageBlob = await response.blob();
-
-    // Convert the image blob to ArrayBuffer
-    const imageArrayBuffer = await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
-      reader.readAsArrayBuffer(imageBlob);
-    });
-
-    // Send the image data to the printer
-    await printerCharacteristic.writeValue(imageArrayBuffer);
-
-
-                    console.log('Printed successfully');
-
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            });
-
+            } catch (error) {
+                console.error('Error:', error);
+            }
         });
-    </script>
+
+        StringPrintButton.addEventListener('click', async () => {
+            try {
+                if (!printerCharacteristic) {
+                    console.error('Printer not connected.');
+                    return;
+                }
+
+                // Data to be sent for printing (replace with your actual data)
+                const printData = StringContent.value;
+                console.log(printData);
+
+                // Convert the string to ArrayBuffer
+                const dataArrayBuffer = new TextEncoder().encode(printData);
+
+                // Write data to the characteristic
+                await printerCharacteristic.writeValue(dataArrayBuffer);
+
+                console.log('Printed successfully');
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+
+        HtmlPrintButton.addEventListener('click', async () => {
+            try {
+                if (!printerCharacteristic) {
+                    console.error('Printer not connected.');
+                    return;
+                }
+
+                // Fetch the image
+                const response = await fetch('/icon.png');
+                const imageBlob = await response.blob();
+
+                // Convert the image blob to ArrayBuffer
+                const imageArrayBuffer = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.readAsArrayBuffer(imageBlob);
+                });
+
+                // Maximum chunk size (adjust as needed)
+                const maxChunkSize = 512;
+
+                // Split the image data into chunks
+                for (let offset = 0; offset < imageArrayBuffer.byteLength; offset += maxChunkSize) {
+                    const chunk = imageArrayBuffer.slice(offset, offset + maxChunkSize);
+                    // Send each chunk to the printer
+                    await printerCharacteristic.writeValue(chunk);
+                }
+
+                console.log('Printed successfully');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+</script>
 
 
 
@@ -176,19 +177,19 @@
 
                 // Connect to the selected device
                 const server = await device.gatt.connect();
-                console.log("Server: "+server);
+                console.log("Server: " + server);
                 console.log(server);
                 // Get the primary service
                 const service = await server.getPrimaryService('e7810a71-73ae-499d-8c15-faa9aef0c3f2'); // Replace with the actual service UUID
-                console.log("service: "+service);
+                console.log("service: " + service);
                 console.log(service);
                 // Get all characteristics of the service
                 const characteristics = await service.getCharacteristics();
-                console.log("characteristics: "+characteristics);
+                console.log("characteristics: " + characteristics);
                 console.log(characteristics);
                 // Display information about characteristics
                 characteristics.forEach(characteristic => {
-                    console.log("characteristic1: "+characteristic);
+                    console.log("characteristic1: " + characteristic);
                     console.log(characteristic);
                     console.log('Characteristic UUID:', characteristic.uuid);
                     console.log('Properties:', characteristic.properties);
@@ -208,65 +209,65 @@
 
 <script>
 
-var output = document.createElement('pre');
-document.body.appendChild(output);
+    var output = document.createElement('pre');
+    document.body.appendChild(output);
 
-// Reference to native method(s)
-var oldLog = console.log;
+    // Reference to native method(s)
+    var oldLog = console.log;
 
-console.log = function( ...items ) {
+    console.log = function (...items) {
 
-    // Call native method first
-    oldLog.apply(this,items);
+        // Call native method first
+        oldLog.apply(this, items);
 
-    // Use JSON to transform objects, all others display normally
-    items.forEach( (item,i)=>{
-        items[i] = (typeof item === 'object' ? JSON.stringify(item,null,4) : item);
-    });
-    output.innerHTML += items.join(' ') + '<br />';
+        // Use JSON to transform objects, all others display normally
+        items.forEach((item, i) => {
+            items[i] = (typeof item === 'object' ? JSON.stringify(item, null, 4) : item);
+        });
+        output.innerHTML += items.join(' ') + '<br />';
 
-};
+    };
 
-// You could even allow Javascript input...
-function consoleInput( data ) {
-    // Print it to console as typed
-    console.log( data + '<br />' );
-    try {
-        console.log( eval( data ) );
-    } catch (e) {
-        console.log( e.stack );
+    // You could even allow Javascript input...
+    function consoleInput(data) {
+        // Print it to console as typed
+        console.log(data + '<br />');
+        try {
+            console.log(eval(data));
+        } catch (e) {
+            console.log(e.stack);
+        }
     }
-}
 
 
 
-function onGetBluetoothDevicesButtonClick() {
-  console.log('Getting existing permitted Bluetooth devices...');
-  navigator.bluetooth.getDevices()
-  .then(devices => {
-    console.log('> Got ' + devices.length + ' Bluetooth devices.');
-    for (const device of devices) {
-      console.log('  > ' + device.name + ' (' + device.id + ')');
+    function onGetBluetoothDevicesButtonClick() {
+        console.log('Getting existing permitted Bluetooth devices...');
+        navigator.bluetooth.getDevices()
+            .then(devices => {
+                console.log('> Got ' + devices.length + ' Bluetooth devices.');
+                for (const device of devices) {
+                    console.log('  > ' + device.name + ' (' + device.id + ')');
+                }
+            })
+            .catch(error => {
+                console.log('Argh! ' + error);
+            });
     }
-  })
-  .catch(error => {
-    console.log('Argh! ' + error);
-  });
-}
 
-function onRequestBluetoothDeviceButtonClick() {
-  console.log('Requesting any Bluetooth device...');
-  navigator.bluetooth.requestDevice({
- // filters: [...] <- Prefer filters to save energy & show relevant devices.
-    acceptAllDevices: true
-  })
-  .then(device => {
-    console.log('> Requested ' + device.name + ' (' + device.id + ')');
-  })
-  .catch(error => {
-    console.log('Argh! ' + error);
-  });
-}
+    function onRequestBluetoothDeviceButtonClick() {
+        console.log('Requesting any Bluetooth device...');
+        navigator.bluetooth.requestDevice({
+            // filters: [...] <- Prefer filters to save energy & show relevant devices.
+            acceptAllDevices: true
+        })
+            .then(device => {
+                console.log('> Requested ' + device.name + ' (' + device.id + ')');
+            })
+            .catch(error => {
+                console.log('Argh! ' + error);
+            });
+    }
 
 </script>
 
