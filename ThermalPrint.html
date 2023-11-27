@@ -128,6 +128,7 @@
 
         HtmlPrintButton.addEventListener('click', async () => {
             try {
+                window.print();
                 if (!printerCharacteristic) {
                     console.error('Printer not connected.');
                     return;
