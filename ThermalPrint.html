@@ -135,7 +135,21 @@
                     // const printerCommands = new TextEncoder().encode(escpos.ESCPOS().image(htmlContent).text(''));
 
                     // Write data to the characteristic
-                    await printerCharacteristic.writeValue(htmlContent);
+                    // await printerCharacteristic.writeValue(htmlContent);
+
+                    const response = await fetch('file:///C:/Users/Titus/Downloads/icon.png');
+    const imageBlob = await response.blob();
+
+    // Convert the image blob to ArrayBuffer
+    const imageArrayBuffer = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsArrayBuffer(imageBlob);
+    });
+
+    // Send the image data to the printer
+    await characteristic.writeValue(imageArrayBuffer);
+
 
                     console.log('Printed successfully');
 
