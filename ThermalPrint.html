@@ -39,6 +39,7 @@
                         <button class="btn btn-primary" id="connectButton1">Connect to Printer </button><br /><br />
                         <button class="btn btn-primary" id="StringPrintButton">Print String </button><br /><br />
                         <button class="btn btn-primary" id="HtmlPrintButton">Print Html </button><br /><br />
+                        <button class="btn btn-primary" id="" onclick="window.print();">Print window </button><br /><br />
                     </div>
                 </div>
             </div>
@@ -128,7 +129,6 @@
 
         HtmlPrintButton.addEventListener('click', async () => {
             try {
-                window.print();
                 if (!printerCharacteristic) {
                     console.error('Printer not connected.');
                     return;
