@@ -132,7 +132,7 @@
                     const htmlContent = HtmlContent.value;
                     console.log(htmlContent);
                     // Convert HTML to ESC/POS commands
-                    const printerCommands = new TextEncoder().encode(escpos.ESCPOS().image(htmlContent).text(''));
+                    // const printerCommands = new TextEncoder().encode(escpos.ESCPOS().image(htmlContent).text(''));
 
                     // Write data to the characteristic
                     await printerCharacteristic.writeValue(htmlContent);
