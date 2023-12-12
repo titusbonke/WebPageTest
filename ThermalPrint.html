@@ -68,6 +68,37 @@
 
 
 <script>
+        var totalWidth = 32; // You can adjust this value based on your requirements
+    function centerText(text) {
+      // Calculate the space needed on each side to center the text
+      var spaceNeeded = (totalWidth - text.length) / 2;
+  
+      // Create a string with the calculated spaces on both sides
+      var centeredString = ' '.repeat(spaceNeeded) + text + ' '.repeat(spaceNeeded);
+  
+      return centeredString;
+    }
+  
+    function replaceCenterTags(text) {
+      // Use a regular expression to find all occurrences of <center>...</center>
+      var regex = /<center>(.*?)<\/center>/g;
+      
+      // Replace each match with the centered text
+      var result = text.replace(regex, function(match, content) {
+        var centeredContent = centerText(content, totalWidth);
+        return centeredContent;
+      });
+  
+      return result;
+    }
+    </script>
+  
+
+
+
+
+
+<script>
     document.addEventListener('DOMContentLoaded', async () => {
         let printerCharacteristic;
 
@@ -114,7 +145,7 @@
                 }
 
                 // Data to be sent for printing (replace with your actual data)
-                const printData = StringContent.value;
+                const printData = replaceCenterTags(StringContent.value);
                 console.log(printData);
 
                 // Convert the string to ArrayBuffer
