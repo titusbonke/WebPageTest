@@ -150,7 +150,7 @@ Text
                 console.log(printData);
 
                 // Convert the string to ArrayBuffer
-                const dataArrayBuffer = new TextEncoder().encode(printData);
+                const dataArrayBuffer = new TextEncoder("utf-8").encode(printData);
 
                 // Write data to the characteristic
                 await printerCharacteristic.writeValue(dataArrayBuffer);
