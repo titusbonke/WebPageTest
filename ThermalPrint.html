@@ -176,7 +176,7 @@ Text
                     const chunk = dataArrayBuffer.slice(offset, offset + maxChunkSize);
                     // Send each chunk to the printer
                     TotalContent+=chunk;
-                    await printerCharacteristic.writeValue(chunk);
+                    await printerCharacteristic.write(chunk);
                 }
 
                 console.log(TotalContent);
