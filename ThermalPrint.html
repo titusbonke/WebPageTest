@@ -169,14 +169,16 @@ Text
                 // writeToBluetoothCharacteristic(printerCharacteristic, printData);
                 // Maximum chunk size (adjust as needed)
                 const maxChunkSize = 512;
-
+                var TotalContent="";
                 // Split the image data into chunks
                 for (let offset = 0; offset < dataArrayBuffer.byteLength; offset += maxChunkSize) {
                     const chunk = dataArrayBuffer.slice(offset, offset + maxChunkSize);
                     // Send each chunk to the printer
+                    TotalContent+=chunk;
                     await printerCharacteristic.writeValue(chunk);
                 }
 
+                console.log(TotalContent);
                 console.log('Printed successfully');
 
             } catch (error) {
