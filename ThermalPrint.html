@@ -169,7 +169,7 @@ Text
                 // writeToBluetoothCharacteristic(printerCharacteristic, printData);
                 // Maximum chunk size (adjust as needed)
 
-                const maxChunkSize = 512;
+                const maxChunkSize = 100;
                 var TotalContent="";
                 // Split the image data into chunks
                 for (let offset = 0; offset < dataArrayBuffer.byteLength; offset += maxChunkSize) {
