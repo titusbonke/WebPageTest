@@ -177,6 +177,7 @@ Text
                     // Send each chunk to the printer
                     TotalContent+=chunk;
                     await printerCharacteristic.write(chunk);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
                 }
 
                 console.log(TotalContent);
