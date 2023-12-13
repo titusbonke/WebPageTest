@@ -162,12 +162,13 @@ Text
                 console.log(printData);
 
                 // Convert the string to ArrayBuffer
-                const dataArrayBuffer = new TextEncoder("utf-8").encode(printData);
+                const dataArrayBuffer = new TextEncoder().encode(printData);
 
                 // Write data to the characteristic
                 // await printerCharacteristic.writeValue(dataArrayBuffer);
                 // writeToBluetoothCharacteristic(printerCharacteristic, printData);
                 // Maximum chunk size (adjust as needed)
+
                 const maxChunkSize = 512;
                 var TotalContent="";
                 // Split the image data into chunks
