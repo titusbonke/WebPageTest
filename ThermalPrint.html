@@ -166,7 +166,17 @@ Text
 
                 // Write data to the characteristic
                 // await printerCharacteristic.writeValue(dataArrayBuffer);
-                writeToBluetoothCharacteristic(printerCharacteristic, printData);
+                // writeToBluetoothCharacteristic(printerCharacteristic, printData);
+                // Maximum chunk size (adjust as needed)
+                const maxChunkSize = 512;
+
+                // Split the image data into chunks
+                for (let offset = 0; offset < dataArrayBuffer.byteLength; offset += maxChunkSize) {
+                    const chunk = dataArrayBuffer.slice(offset, offset + maxChunkSize);
+                    // Send each chunk to the printer
+                    await printerCharacteristic.writeValue(chunk);
+                }
+
                 console.log('Printed successfully');
 
             } catch (error) {
