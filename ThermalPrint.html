@@ -162,7 +162,7 @@ Text
                 console.log(printData);
 
                 // Convert the string to ArrayBuffer
-                const dataArrayBuffer = new TextEncoder().encode(StringContent.value);
+                const dataArrayBuffer = new TextEncoder().encode(printData);
 
                 // Write data to the characteristic
                 // await printerCharacteristic.writeValue(dataArrayBuffer);
@@ -170,18 +170,12 @@ Text
                 // Maximum chunk size (adjust as needed)
 
                 const maxChunkSize = 100;
-                var TotalContent="";
                 // Split the image data into chunks
                 for (let offset = 0; offset < dataArrayBuffer.byteLength; offset += maxChunkSize) {
                     const chunk = dataArrayBuffer.slice(offset, offset + maxChunkSize);
                     // Send each chunk to the printer
-                    TotalContent+=chunk;
                     await printerCharacteristic.writeValue(chunk);
-                    console.log(printerCharacteristic);
-                    await new Promise(resolve => setTimeout(resolve, 1000));
                 }
-
-                console.log(TotalContent);
                 console.log('Printed successfully');
 
             } catch (error) {
