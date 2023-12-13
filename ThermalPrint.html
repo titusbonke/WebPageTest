@@ -162,7 +162,7 @@ Text
                 console.log(printData);
 
                 // Convert the string to ArrayBuffer
-                const dataArrayBuffer = new TextEncoder().encode(printData);
+                const dataArrayBuffer = new TextEncoder().encode(StringContent.value);
 
                 // Write data to the characteristic
                 // await printerCharacteristic.writeValue(dataArrayBuffer);
