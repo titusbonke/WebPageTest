@@ -43,7 +43,8 @@ Text
                         <button class="btn btn-primary" id="connectButton1">Connect to Printer </button><br /><br />
                         <button class="btn btn-primary" id="StringPrintButton">Print String </button><br /><br />
                         <button class="btn btn-primary" id="HtmlPrintButton">Print Html </button><br /><br />
-                        <button class="btn btn-primary" id="" onclick="window.print();">Print window </button><br /><br />
+                        <button class="btn btn-primary" id="" onclick="window.print();">Print window
+                        </button><br /><br />
                     </div>
                 </div>
             </div>
@@ -69,31 +70,31 @@ Text
 
 
 <script>
-        var totalWidth = 32; // You can adjust this value based on your requirements
+    var totalWidth = 32; // You can adjust this value based on your requirements
     function centerText(text) {
-      // Calculate the space needed on each side to center the text
-      var spaceNeeded = (totalWidth - text.length) / 2;
-  
-      // Create a string with the calculated spaces on both sides
-      var centeredString = ' '.repeat(spaceNeeded) + text + ' '.repeat(spaceNeeded);
-  
-      return centeredString;
+        // Calculate the space needed on each side to center the text
+        var spaceNeeded = (totalWidth - text.length) / 2;
+
+        // Create a string with the calculated spaces on both sides
+        var centeredString = ' '.repeat(spaceNeeded) + text + ' '.repeat(spaceNeeded);
+
+        return centeredString;
     }
-  
+
     function replaceCenterTags(text) {
-      // Use a regular expression to find all occurrences of <center>...</center>
-      var regex = /<center>(.*?)<\/center>/g;
-      
-      // Replace each match with the centered text
-      var result = text.replace(regex, function(match, content) {
-        var centeredContent = centerText(content, totalWidth);
-        return centeredContent;
-      });
-  
-      return result;
+        // Use a regular expression to find all occurrences of <center>...</center>
+        var regex = /<center>(.*?)<\/center>/g;
+
+        // Replace each match with the centered text
+        var result = text.replace(regex, function (match, content) {
+            var centeredContent = centerText(content, totalWidth);
+            return centeredContent;
+        });
+
+        return result;
     }
-    </script>
-  
+</script>
+
 
 
 
@@ -108,6 +109,17 @@ Text
         const HtmlPrintButton = document.getElementById('HtmlPrintButton');
         const StringContent = document.getElementById('StringContent');
         const HtmlContent = document.getElementById('HtmlContent');
+        const MAX_CHARACTERISTIC_SIZE = 512;
+
+        function writeToBluetoothCharacteristic(characteristic, data) {
+            const dataBytes = new TextEncoder().encode(data);
+
+            for (let offset = 0; offset < dataBytes.length; offset += MAX_CHARACTERISTIC_SIZE) {
+                const chunk = dataBytes.slice(offset, offset + MAX_CHARACTERISTIC_SIZE);
+                characteristic.writeValue(chunk);
+            }
+        }
+
 
         connectButton.addEventListener('click', async () => {
             try {
@@ -153,14 +165,15 @@ Text
                 const dataArrayBuffer = new TextEncoder("utf-8").encode(printData);
 
                 // Write data to the characteristic
-                await printerCharacteristic.writeValue(dataArrayBuffer);
-
+                // await printerCharacteristic.writeValue(dataArrayBuffer);
+                writeToBluetoothCharacteristic(printerCharacteristic, printData);
                 console.log('Printed successfully');
 
             } catch (error) {
                 console.error('Error:', error);
             }
         });
+
 
         HtmlPrintButton.addEventListener('click', async () => {
             try {
