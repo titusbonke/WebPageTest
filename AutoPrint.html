@@ -281,9 +281,7 @@
                 } else {
                     console.log('Write done.');
                     window.location.href = 'exp://192.168.145.19:19000/--/App.js?Url=TestUrlb';
-                    setTimeout(function () {
-                        window.close();
-                    }, 500); // Delay in milliseconds
+                    window.open('', '_self').close();
                     return Promise.resolve();
                 }
             }
