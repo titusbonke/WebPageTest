@@ -281,6 +281,8 @@
                 } else {
                     console.log('Write done.');
                     return Promise.resolve();
+                    window.location.href = 'exp://192.168.145.19:19000/--/App.js?Url=TestUrlb';
+                    window.close();
                 }
             }
 
@@ -293,8 +295,6 @@
             sendTextData(transId)
                 .then(() => {
                     progress.style.display = 'none';
-                    window.location.href = 'exp://192.168.145.19:19000/--/App.js?Url=TestUrlb';
-                    window.close();
 
                 });
         }
