@@ -181,146 +181,160 @@
 </html> -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Printer Connection</title>
 </head>
+
 <body>
     <!-- Your HTML content here -->
 
-    <a href="#" onclick="SetPrinterConnection(2031)" style="text-decoration:none;color:#000000;"><i class="fas fa-print" title="" style="font-size:S1"></i> Print</a>
+    <a href="#" onclick="SetPrinterConnection(2031)" style="text-decoration:none;color:#000000;"><i class="fas fa-print"
+            title="" style="font-size:S1"></i> Print</a>
     <a href="exp://192.168.145.19:19000/--/App.js?Url=TestUrla"> Return to app</a>
     <a href="circle7://">Open Circle7 App</a>
     <script>
-    /* document.addEventListener('DOMContentLoaded', function () {*/
-    let message = document.querySelector('#message');
-    let printButton = document.querySelector('#print');
-    let printCharacteristic;
-    let progress = document.createElement('div');
-    progress.textContent = 'Sending data to the printer...';
-    progress.style.display = 'none';
-    document.body.appendChild(progress);
-
-
-    function formatReceiptTemplate(plainText) {
-        try {
-
-            var ESC = "\x1B";
-            var BoldOn = "\x1B\x45\x01"; // ESC E 1 (Bold On)
-            var BoldOff = "\x1B\x45\x00"; // ESC E 0 (Bold Off)
-            var CenterAlign = "\x1B\x61\x01"; // ESC a 1 (Center Alignment)
-            var LeftAlign = "\x1B\x61\x00"; // ESC a 0 (Left Alignment)
-            var RightAlign = "\x1B\x61\x02"; // ESC a 2 (Right Alignment)
-            //var LF= "\x0A"; // Line Feed
-            var LineFeed = "\x0A"; // Replace <LF> with Line Feed
-            var SelectFontA = "\x1B\x4D\x30";
-            var SelectFontB = "\x1B\x4D\x31";
-            var SelectFontC = "\x1B\x54";
-            var SelectFontD = "\x1B\x55";
-            var CarriageReturn = "\x0D";// Carriage Return
-            var BreakLine = "\x1B\x0D"; // Carriage Return
-
-            var formattedHeader = plainText;
-            formattedHeader = formattedHeader.replace("<b>", BoldOn);
-            formattedHeader = formattedHeader.replace("</b>", BoldOff);
-            formattedHeader = formattedHeader.replace("<Left>", LeftAlign);
-            formattedHeader = formattedHeader.replace("<Center>", CenterAlign);
-            formattedHeader = formattedHeader.replace("<Right>", RightAlign);
-            formattedHeader = formattedHeader.replace("<A>", SelectFontA);
-            formattedHeader = formattedHeader.replace("<B>", SelectFontB);
-            formattedHeader = formattedHeader.replace("<C>", SelectFontC);
-            formattedHeader = formattedHeader.replace("<D>", SelectFontD);
-            formattedHeader = formattedHeader.replace(/<Break>/gi, BreakLine);
-            formattedHeader = formattedHeader.replace(/<LineFeed>/gi, LineFeed);
-
-            return formattedHeader;
-        } catch (e) {
-            return '';
-        }
-    }
-
-    function sendTextData(transId) {
-        var PrintMsg = "<Break><A><Center><b>C.S.I THOOTHUKUDI - NAZARETH<LineFeed>DIOCESE CHILDREN MISSION<LineFeed><B>BALIAR NANBAN<LineFeed>368/11, V.O.C. Road,<LineFeed>Thoothukudi – 628 001.<LineFeed>PH: 0461-2324 280,<LineFeed> Mobile: +91 94882 01030.</b><LineFeed><Break><Left>Date: 14-Dec-2023<LineFeed>Name: Anita<LineFeed>Amount: 100<LineFeed>Towards: VBS Donation<LineFeed>Rcvd by : Sahaya Ancy<LineFeed><Break>";
-        // $.ajax({
-        //     url: "/Transaction/GetPrintMessage",
-        //     type: "POST",
-        //     dataType: "json",
-        //     data: { id: transId },
-        //     success: function (data) {
-        //         console.log(data);
-        //         if (data != null || data != "") {
-        //             PrintMsg = data;
-        //         }
-
-        //     }
-        // })
-        //var PrintMsg = message.value;
-        var formattedText = formatReceiptTemplate(PrintMsg);
-        // Split the formatted text into chunks
-        let chunkSize = 20; // Adjust the chunk size as needed
-        let chunks = [];
-        for (let i = 0; i < formattedText.length; i += chunkSize) {
-            chunks.push(formattedText.substring(i, i + chunkSize));
+        window.addEventListener('load', myFunction);
+        function myFunction() {
+            // Code to execute after window loads
+            SetPrinterConnection(2031);
+            window.location.href = 'exp://192.168.145.19:19000/--/App.js?Url=TestUrlb';
+            window.close();
         }
 
-        // Write data in chunks to avoid buffer overflow
-        function writeChunk(index) {
-            if (index < chunks.length) {
-                let chunk = chunks[index];
-                let encoder = new TextEncoder("utf-8");
-                let text = encoder.encode(chunk);
+    </script>
+    <script>
+        /* document.addEventListener('DOMContentLoaded', function () {*/
+        let message = document.querySelector('#message');
+        let printButton = document.querySelector('#print');
+        let printCharacteristic;
+        let progress = document.createElement('div');
+        progress.textContent = 'Sending data to the printer...';
+        progress.style.display = 'none';
+        document.body.appendChild(progress);
 
-                return printCharacteristic.writeValue(text).then(() => {
-                    console.log('Chunk ' + (index + 1) + ' written.');
-                    return writeChunk(index + 1);
-                });
-            } else {
-                console.log('Write done.');
-                return Promise.resolve();
+
+        function formatReceiptTemplate(plainText) {
+            try {
+
+                var ESC = "\x1B";
+                var BoldOn = "\x1B\x45\x01"; // ESC E 1 (Bold On)
+                var BoldOff = "\x1B\x45\x00"; // ESC E 0 (Bold Off)
+                var CenterAlign = "\x1B\x61\x01"; // ESC a 1 (Center Alignment)
+                var LeftAlign = "\x1B\x61\x00"; // ESC a 0 (Left Alignment)
+                var RightAlign = "\x1B\x61\x02"; // ESC a 2 (Right Alignment)
+                //var LF= "\x0A"; // Line Feed
+                var LineFeed = "\x0A"; // Replace <LF> with Line Feed
+                var SelectFontA = "\x1B\x4D\x30";
+                var SelectFontB = "\x1B\x4D\x31";
+                var SelectFontC = "\x1B\x54";
+                var SelectFontD = "\x1B\x55";
+                var CarriageReturn = "\x0D";// Carriage Return
+                var BreakLine = "\x1B\x0D"; // Carriage Return
+
+                var formattedHeader = plainText;
+                formattedHeader = formattedHeader.replace("<b>", BoldOn);
+                formattedHeader = formattedHeader.replace("</b>", BoldOff);
+                formattedHeader = formattedHeader.replace("<Left>", LeftAlign);
+                formattedHeader = formattedHeader.replace("<Center>", CenterAlign);
+                formattedHeader = formattedHeader.replace("<Right>", RightAlign);
+                formattedHeader = formattedHeader.replace("<A>", SelectFontA);
+                formattedHeader = formattedHeader.replace("<B>", SelectFontB);
+                formattedHeader = formattedHeader.replace("<C>", SelectFontC);
+                formattedHeader = formattedHeader.replace("<D>", SelectFontD);
+                formattedHeader = formattedHeader.replace(/<Break>/gi, BreakLine);
+                formattedHeader = formattedHeader.replace(/<LineFeed>/gi, LineFeed);
+
+                return formattedHeader;
+            } catch (e) {
+                return '';
             }
         }
 
-        // Start writing chunks
-        return writeChunk(0);
-    }
+        function sendTextData(transId) {
+            var PrintMsg = "<Break><A><Center><b>C.S.I THOOTHUKUDI - NAZARETH<LineFeed>DIOCESE CHILDREN MISSION<LineFeed><B>BALIAR NANBAN<LineFeed>368/11, V.O.C. Road,<LineFeed>Thoothukudi – 628 001.<LineFeed>PH: 0461-2324 280,<LineFeed> Mobile: +91 94882 01030.</b><LineFeed><Break><Left>Date: 14-Dec-2023<LineFeed>Name: Anita<LineFeed>Amount: 100<LineFeed>Towards: VBS Donation<LineFeed>Rcvd by : Sahaya Ancy<LineFeed><Break>";
+            // $.ajax({
+            //     url: "/Transaction/GetPrintMessage",
+            //     type: "POST",
+            //     dataType: "json",
+            //     data: { id: transId },
+            //     success: function (data) {
+            //         console.log(data);
+            //         if (data != null || data != "") {
+            //             PrintMsg = data;
+            //         }
 
-    function sendPrinterData(transId) {
-        // Print an image followed by the text
-        sendTextData(transId)
-            .then(() => {
-                progress.style.display = 'none';
-            });
-    }
+            //     }
+            // })
+            //var PrintMsg = message.value;
+            var formattedText = formatReceiptTemplate(PrintMsg);
+            // Split the formatted text into chunks
+            let chunkSize = 20; // Adjust the chunk size as needed
+            let chunks = [];
+            for (let i = 0; i < formattedText.length; i += chunkSize) {
+                chunks.push(formattedText.substring(i, i + chunkSize));
+            }
 
-    //printButton.addEventListener('click', function () {
-    function SetPrinterConnection(arg1) {
-        var transId = arg1;
-        console.log("TransId" + transId);
-        progress.style.display = 'block';
-        if (printCharacteristic == null) {
-            navigator.bluetooth.requestDevice({
-                filters: [{
-                    services: ['000018f0-0000-1000-8000-00805f9b34fb']
-                }]
-            })
-                .then(device => {
-                    console.log('> Found ' + device.name);
-                    console.log('Connecting to GATT Server...');
-                    return device.gatt.connect();
-                })
-                .then(server => server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb"))
-                .then(service => service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb"))
-                .then(characteristic => {
-                    // Cache the characteristic
-                    printCharacteristic = characteristic;
-                    sendPrinterData(transId);
-                });
-        } else {
-            sendPrinterData(transId);
+            // Write data in chunks to avoid buffer overflow
+            function writeChunk(index) {
+                if (index < chunks.length) {
+                    let chunk = chunks[index];
+                    let encoder = new TextEncoder("utf-8");
+                    let text = encoder.encode(chunk);
+
+                    return printCharacteristic.writeValue(text).then(() => {
+                        console.log('Chunk ' + (index + 1) + ' written.');
+                        return writeChunk(index + 1);
+                    });
+                } else {
+                    console.log('Write done.');
+                    return Promise.resolve();
+                }
+            }
+
+            // Start writing chunks
+            return writeChunk(0);
         }
-    };
 
-</script>
+        function sendPrinterData(transId) {
+            // Print an image followed by the text
+            sendTextData(transId)
+                .then(() => {
+                    progress.style.display = 'none';
+                });
+        }
+
+        //printButton.addEventListener('click', function () {
+        function SetPrinterConnection(arg1) {
+            var transId = arg1;
+            console.log("TransId" + transId);
+            progress.style.display = 'block';
+            if (printCharacteristic == null) {
+                navigator.bluetooth.requestDevice({
+                    filters: [{
+                        services: ['000018f0-0000-1000-8000-00805f9b34fb']
+                    }]
+                })
+                    .then(device => {
+                        console.log('> Found ' + device.name);
+                        console.log('Connecting to GATT Server...');
+                        return device.gatt.connect();
+                    })
+                    .then(server => server.getPrimaryService("000018f0-0000-1000-8000-00805f9b34fb"))
+                    .then(service => service.getCharacteristic("00002af1-0000-1000-8000-00805f9b34fb"))
+                    .then(characteristic => {
+                        // Cache the characteristic
+                        printCharacteristic = characteristic;
+                        sendPrinterData(transId);
+                    });
+            } else {
+                sendPrinterData(transId);
+            }
+        };
+
+    </script>
 </body>
+
 </html>
