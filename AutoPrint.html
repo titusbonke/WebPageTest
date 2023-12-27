@@ -196,16 +196,6 @@
     <a href="exp://192.168.145.19:19000/--/App.js?Url=TestUrla"> Return to app</a>
     <a href="circle7://">Open Circle7 App</a>
     <script>
-        window.addEventListener('load', myFunction);
-        function myFunction() {
-            // Code to execute after window loads
-            setTimeout(function(){
-                SetPrinterConnection(2031);
-            },5000);
-        }
-
-    </script>
-    <script>
         /* document.addEventListener('DOMContentLoaded', function () {*/
         let message = document.querySelector('#message');
         let printButton = document.querySelector('#print');
@@ -338,6 +328,17 @@
         };
 
     </script>
+    <script>
+        window.addEventListener('load', myFunction);
+        function myFunction() {
+            // Code to execute after window loads
+            setTimeout(function () {
+                SetPrinterConnection(2031);
+            }, 5000);
+        }
+
+    </script>
+
 </body>
 
 </html>
