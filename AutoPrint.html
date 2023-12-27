@@ -200,8 +200,6 @@
         function myFunction() {
             // Code to execute after window loads
             SetPrinterConnection(2031);
-            window.location.href = 'exp://192.168.145.19:19000/--/App.js?Url=TestUrlb';
-            window.close();
         }
 
     </script>
@@ -303,6 +301,9 @@
             sendTextData(transId)
                 .then(() => {
                     progress.style.display = 'none';
+                    window.location.href = 'exp://192.168.145.19:19000/--/App.js?Url=TestUrlb';
+                    window.close();
+
                 });
         }
 
