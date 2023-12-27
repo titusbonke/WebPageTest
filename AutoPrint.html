@@ -199,7 +199,9 @@
         window.addEventListener('load', myFunction);
         function myFunction() {
             // Code to execute after window loads
-            SetPrinterConnection(2031);
+            setTimeout(function(){
+                SetPrinterConnection(2031);
+            },5000);
         }
 
     </script>
