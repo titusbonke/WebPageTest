@@ -50,7 +50,17 @@
                         <button id="connectButton">Connect to Printer</button>
                         <button id="connectButton1">Connect to Printer 1</button>
                         <button id="printButton">Print</button>
-                    
+
+                        <div class="form-group"><label for="exampleSelect">Example Select</label><select
+                                class="form-control" id="exampleSelect">
+                                <option value="1">Option 1</option>
+                                <option value="2">Option 2</option>
+                                <option value="3">Option 3</option>
+                                <option value="4">Option 4</option>
+                                <option value="5">Option 5</option>
+                            </select></div>
+
+
 
                     </div>
                 </div>
@@ -62,60 +72,60 @@
 
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            let printerCharacteristic;
+<script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        let printerCharacteristic;
 
-            const connectButton = document.getElementById('connectButton1');
-            const printButton = document.getElementById('printButton');
+        const connectButton = document.getElementById('connectButton1');
+        const printButton = document.getElementById('printButton');
 
-            connectButton.addEventListener('click', async () => {
-                try {
-                    // Request Bluetooth device
-                    const device = await navigator.bluetooth.requestDevice({
-                        filters: [{ services: ['e7810a71-73ae-499d-8c15-faa9aef0c3f2'] }] // Replace with the actual service UUID of your printer
-                    });
+        connectButton.addEventListener('click', async () => {
+            try {
+                // Request Bluetooth device
+                const device = await navigator.bluetooth.requestDevice({
+                    filters: [{ services: ['e7810a71-73ae-499d-8c15-faa9aef0c3f2'] }] // Replace with the actual service UUID of your printer
+                });
 
-                    // Connect to the selected device
-                    const server = await device.gatt.connect();
+                // Connect to the selected device
+                const server = await device.gatt.connect();
 
-                    // Get the primary service
-                    const service = await server.getPrimaryService('e7810a71-73ae-499d-8c15-faa9aef0c3f2'); // Replace with the actual service UUID
+                // Get the primary service
+                const service = await server.getPrimaryService('e7810a71-73ae-499d-8c15-faa9aef0c3f2'); // Replace with the actual service UUID
 
-                    // Get the characteristic for writing
-                    printerCharacteristic = await service.getCharacteristic('bef8d6c9-9c21-4c9e-b632-bd58c1009f9f'); // Replace with the actual characteristic UUID
+                // Get the characteristic for writing
+                printerCharacteristic = await service.getCharacteristic('bef8d6c9-9c21-4c9e-b632-bd58c1009f9f'); // Replace with the actual characteristic UUID
 
-                    console.log('Connected to printer');
+                console.log('Connected to printer');
 
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            });
-
-            printButton.addEventListener('click', async () => {
-                try {
-                    if (!printerCharacteristic) {
-                        console.error('Printer not connected.');
-                        return;
-                    }
-
-                    // Data to be sent for printing (replace with your actual data)
-                    const printData = 'Hello, this is a test print.\n \n Hello, this is a test print. 1 \n';
-
-                    // Convert the string to ArrayBuffer
-                    const dataArrayBuffer = new TextEncoder().encode(printData);
-
-                    // Write data to the characteristic
-                    await printerCharacteristic.writeValue(dataArrayBuffer);
-
-                    console.log('Printed successfully');
-
-                } catch (error) {
-                    console.error('Error:', error);
-                }
-            });
+            } catch (error) {
+                console.error('Error:', error);
+            }
         });
-    </script>
+
+        printButton.addEventListener('click', async () => {
+            try {
+                if (!printerCharacteristic) {
+                    console.error('Printer not connected.');
+                    return;
+                }
+
+                // Data to be sent for printing (replace with your actual data)
+                const printData = 'Hello, this is a test print.\n \n Hello, this is a test print. 1 \n';
+
+                // Convert the string to ArrayBuffer
+                const dataArrayBuffer = new TextEncoder().encode(printData);
+
+                // Write data to the characteristic
+                await printerCharacteristic.writeValue(dataArrayBuffer);
+
+                console.log('Printed successfully');
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+</script>
 
 
 
@@ -132,19 +142,19 @@
 
                 // Connect to the selected device
                 const server = await device.gatt.connect();
-                console.log("Server: "+server);
+                console.log("Server: " + server);
                 console.log(server);
                 // Get the primary service
                 const service = await server.getPrimaryService('e7810a71-73ae-499d-8c15-faa9aef0c3f2'); // Replace with the actual service UUID
-                console.log("service: "+service);
+                console.log("service: " + service);
                 console.log(service);
                 // Get all characteristics of the service
                 const characteristics = await service.getCharacteristics();
-                console.log("characteristics: "+characteristics);
+                console.log("characteristics: " + characteristics);
                 console.log(characteristics);
                 // Display information about characteristics
                 characteristics.forEach(characteristic => {
-                    console.log("characteristic1: "+characteristic);
+                    console.log("characteristic1: " + characteristic);
                     console.log(characteristic);
                     console.log('Characteristic UUID:', characteristic.uuid);
                     console.log('Properties:', characteristic.properties);
@@ -164,65 +174,65 @@
 
 <script>
 
-var output = document.createElement('pre');
-document.body.appendChild(output);
+    var output = document.createElement('pre');
+    document.body.appendChild(output);
 
-// Reference to native method(s)
-var oldLog = console.log;
+    // Reference to native method(s)
+    var oldLog = console.log;
 
-console.log = function( ...items ) {
+    console.log = function (...items) {
 
-    // Call native method first
-    oldLog.apply(this,items);
+        // Call native method first
+        oldLog.apply(this, items);
 
-    // Use JSON to transform objects, all others display normally
-    items.forEach( (item,i)=>{
-        items[i] = (typeof item === 'object' ? JSON.stringify(item,null,4) : item);
-    });
-    output.innerHTML += items.join(' ') + '<br />';
+        // Use JSON to transform objects, all others display normally
+        items.forEach((item, i) => {
+            items[i] = (typeof item === 'object' ? JSON.stringify(item, null, 4) : item);
+        });
+        output.innerHTML += items.join(' ') + '<br />';
 
-};
+    };
 
-// You could even allow Javascript input...
-function consoleInput( data ) {
-    // Print it to console as typed
-    console.log( data + '<br />' );
-    try {
-        console.log( eval( data ) );
-    } catch (e) {
-        console.log( e.stack );
+    // You could even allow Javascript input...
+    function consoleInput(data) {
+        // Print it to console as typed
+        console.log(data + '<br />');
+        try {
+            console.log(eval(data));
+        } catch (e) {
+            console.log(e.stack);
+        }
     }
-}
 
 
 
-function onGetBluetoothDevicesButtonClick() {
-  console.log('Getting existing permitted Bluetooth devices...');
-  navigator.bluetooth.getDevices()
-  .then(devices => {
-    console.log('> Got ' + devices.length + ' Bluetooth devices.');
-    for (const device of devices) {
-      console.log('  > ' + device.name + ' (' + device.id + ')');
+    function onGetBluetoothDevicesButtonClick() {
+        console.log('Getting existing permitted Bluetooth devices...');
+        navigator.bluetooth.getDevices()
+            .then(devices => {
+                console.log('> Got ' + devices.length + ' Bluetooth devices.');
+                for (const device of devices) {
+                    console.log('  > ' + device.name + ' (' + device.id + ')');
+                }
+            })
+            .catch(error => {
+                console.log('Argh! ' + error);
+            });
     }
-  })
-  .catch(error => {
-    console.log('Argh! ' + error);
-  });
-}
 
-function onRequestBluetoothDeviceButtonClick() {
-  console.log('Requesting any Bluetooth device...');
-  navigator.bluetooth.requestDevice({
- // filters: [...] <- Prefer filters to save energy & show relevant devices.
-    acceptAllDevices: true
-  })
-  .then(device => {
-    console.log('> Requested ' + device.name + ' (' + device.id + ')');
-  })
-  .catch(error => {
-    console.log('Argh! ' + error);
-  });
-}
+    function onRequestBluetoothDeviceButtonClick() {
+        console.log('Requesting any Bluetooth device...');
+        navigator.bluetooth.requestDevice({
+            // filters: [...] <- Prefer filters to save energy & show relevant devices.
+            acceptAllDevices: true
+        })
+            .then(device => {
+                console.log('> Requested ' + device.name + ' (' + device.id + ')');
+            })
+            .catch(error => {
+                console.log('Argh! ' + error);
+            });
+    }
 
 </script>
 
